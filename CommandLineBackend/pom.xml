@@ -21,7 +21,6 @@
     </properties>
 
     <build>
-        <finalName>CommandLineWebapp</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
