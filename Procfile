@@ -1,1 +1,1 @@
-web: mv CommandLineBackend/target/CommandLineBackend*.jar target/CommandLineWebapp.jar && java -jar target/CommandLineWebapp.jar
+web: mv CommandLineBackend/target/CommandLineBackend*.jar target/CommandLineWebapp.jar && java -Dserver.port=$PORT -jar target/CommandLineWebapp.jar
