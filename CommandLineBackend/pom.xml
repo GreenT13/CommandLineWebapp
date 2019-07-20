@@ -25,6 +25,7 @@
     </dependencyManagement>
 
     <build>
+        <finalName>CommandLineWebapp</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
