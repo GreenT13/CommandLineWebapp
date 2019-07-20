@@ -12,7 +12,7 @@ public class CommandFinder {
 
     public Set<Class<? extends ICommand>> findAllCommands() {
         // For some reason I need to add "" to the prefix, otherwise it wont detect my classes.
-        Reflections reflections = new Reflections("");
+        Reflections reflections = new Reflections("com.apon");
         return reflections.getSubTypesOf(ICommand.class);
     }
 }
