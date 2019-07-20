@@ -3,6 +3,10 @@ package com.apon.commandline.backend.plugin;
 import com.apon.commandline.backend.plugin.interfaces.IPlugin;
 import com.apon.commandline.backend.spring.database.Plugin;
 import com.apon.commandline.backend.spring.database.PluginRepository;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +33,7 @@ public class PluginFacade {
      * Execute a plugin, and return the response.
      * @param pluginIdentifier The identifier of the plugin.
      */
-    public String executePluginWithIdentifier(String pluginIdentifier) throws PluginException {
+    public String executePluginWithIdentifier(String pluginIdentifier, String fullCommand) throws PluginException {
         // Search the plugin.
         Plugin plugin = pluginRepository.findByPluginIdentifier(pluginIdentifier).get(0);
 
@@ -45,7 +49,7 @@ public class PluginFacade {
         // Execute the plugin (assume we only have one class that implements the interface).
         String output;
         try {
-            output = executeFirstPluginYouCanFind(jar);
+            output = executeFirstPluginYouCanFind(jar, fullCommand);
         } catch (IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             logger.error("Failed to execute plugin.", e);
             throw new PluginException("Failed to execute plugin.");
@@ -84,7 +88,7 @@ public class PluginFacade {
      * Execute the implementation of the IPlugin.
      * @param jar The jar in which the plugin resides.
      */
-    private String executeFirstPluginYouCanFind(File jar) throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private String executeFirstPluginYouCanFind(File jar, String fullCommand) throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, PluginException {
         // Create the class loader.
         URL[] urls = { new URL("jar:file:" + jar.getAbsolutePath() + "!/") };
         URLClassLoader classLoader = URLClassLoader.newInstance(urls);
@@ -98,7 +102,15 @@ public class PluginFacade {
         IPlugin plugin = constructor.newInstance();
 
         // Execute the plugin.
-        String output = plugin.getResponse();
+        CommandLineParser commandLineParser = new DefaultParser();
+        CommandLine commandLine;
+        try {
+            commandLine = commandLineParser.parse(plugin.getOptions(), fullCommand.split(" "));
+        } catch (ParseException e) {
+            logger.error("Failed to parse command.", e);
+            throw new PluginException("Failed to parse command.");
+        }
+        String output = plugin.execute(commandLine);
 
         // Close the class loader (otherwise the jar will stay open).
         classLoader.close();

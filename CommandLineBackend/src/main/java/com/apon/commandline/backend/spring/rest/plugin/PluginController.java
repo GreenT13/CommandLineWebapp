@@ -22,11 +22,12 @@ public class PluginController {
     }
 
     @GetMapping("plugin/execute")
-    public PluginResponseValueObject executePlugin(@RequestParam() String pluginIdentifier) {
+    public PluginResponseValueObject executePlugin(@RequestParam() String command) {
         PluginFacade pluginFacade = new PluginFacade(pluginRepository);
+        String pluginIdentifier = getPluginIdentifierFromCommand(command);
         String output;
         try {
-            output = pluginFacade.executePluginWithIdentifier(pluginIdentifier);
+            output = pluginFacade.executePluginWithIdentifier(pluginIdentifier, command);
         } catch (PluginException e) {
             logger.error("Failed to execute plugin with identifier '{}'", pluginIdentifier, e);
             return new PluginResponseValueObject("Failed!");
@@ -37,7 +38,7 @@ public class PluginController {
 
     @PostMapping("plugin/upload")
     public PluginResponseValueObject uploadPlugin(@RequestBody PluginInputValueObject pluginInputValueObject) throws IOException {
-        Plugin plugin = new Plugin("hello-world", getBytesFromBase64File(pluginInputValueObject.fileContent));
+        Plugin plugin = new Plugin(pluginInputValueObject.pluginIdentifier, getBytesFromBase64File(pluginInputValueObject.fileContent));
         pluginRepository.save(plugin);
 
         return new PluginResponseValueObject("Succes!");
@@ -52,6 +53,10 @@ public class PluginController {
         fileContent = fileContent.substring(PREFIX.length());
         byte[] data = Base64.decodeBase64(fileContent);
         return ArrayUtils.toObject(data);
+    }
+
+    private String getPluginIdentifierFromCommand(String command) {
+        return command.replaceAll(" .*", "");
     }
 
 }
