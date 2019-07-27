@@ -5,6 +5,8 @@ import com.apon.commandline.backend.spring.websocket.coders.MessageEncoder;
 import com.apon.commandline.backend.spring.websocket.command.CommandInput;
 import com.apon.commandline.backend.spring.websocket.command.CommandOutput;
 import com.apon.commandline.backend.spring.websocket.command.CommandStatus;
+import com.apon.commandline.backend.terminal.Terminal;
+import com.apon.commandline.backend.terminal.TerminalSocketIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -15,15 +17,19 @@ import java.io.IOException;
 
 @SuppressWarnings("unused")
 @Component
-@ServerEndpoint(value = "/webSocket", decoders = MessageDecoder.class, encoders = MessageEncoder.class)
+@ServerEndpoint(value = WebSocketEntryPoint.WEBSOCKET_URL, decoders = MessageDecoder.class, encoders = MessageEncoder.class)
 public class WebSocketEntryPoint {
+    public final static String WEBSOCKET_URL = "/webSocket";
+
     private Logger logger = LogManager.getLogger(WebSocketEntryPoint.class);
     private Session session;
+    private Terminal terminal;
 
     @OnOpen
     public void onOpen(Session session) {
         logger.info("Open connection '{}'.", session.getId());
         this.session = session;
+        this.terminal = new Terminal(new TerminalSocketIO(session));
     }
 
     @OnClose
@@ -35,14 +41,12 @@ public class WebSocketEntryPoint {
     public void onMessage(CommandInput commandInput) throws IOException, EncodeException {
         logger.info("Message received '{}'.", commandInput.commandArg);
 
-        sendMessage("Message received. Going to wait for a second.");
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            terminal.executeCommand(commandInput.commandArg);
+            sendFinalMessage();
+        } catch (Exception e) {
+            sendFinalMessage(e.getMessage());
         }
-
-        sendFinalMessage("Finished.");
     }
 
     @OnError
@@ -50,13 +54,12 @@ public class WebSocketEntryPoint {
         logger.error("An error occurred", e);
     }
 
-    private void sendMessage(String message) throws IOException, EncodeException {
-        CommandOutput commandOutput = new CommandOutput(message, CommandStatus.MESSAGE);
-        session.getBasicRemote().sendObject(commandOutput);
-    }
-
     private void sendFinalMessage(String message) throws IOException, EncodeException {
         CommandOutput commandOutput = new CommandOutput(message, CommandStatus.FINAL);
         session.getBasicRemote().sendObject(commandOutput);
+    }
+
+    private void sendFinalMessage() throws IOException, EncodeException {
+        sendFinalMessage(null);
     }
 }
