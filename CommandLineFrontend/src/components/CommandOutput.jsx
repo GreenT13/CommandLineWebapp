@@ -7,7 +7,7 @@ export default class CommandOutput extends React.Component {
             <div>
                 <div className="input-line line">
                     <div className="prompt">[rapon@website] #</div>
-                    <div>
+                    <div className="cmdline-wrapper">
                         <input className="cmdline" readOnly value={this.props.command.commandArg}/>
                     </div>
 
