@@ -58,10 +58,10 @@ export default class MyWebSocketComponent extends React.Component {
         let message = data.message;
         let commandStatus = data.commandStatus;
 
-        this.props.onMessageCallback(message);
-
-        if (commandStatus === 'FINAL') {
-            this.props.onFinalCallback();
+        if (commandStatus === 'MESSAGE') {
+            this.props.onMessageCallback(message);
+        } else if (commandStatus === 'FINAL') {
+            this.props.onFinalCallback(message);
         }
     };
 

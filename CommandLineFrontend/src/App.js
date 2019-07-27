@@ -40,7 +40,10 @@ class App extends React.Component {
         });
     };
 
-    onFinal = () => {
+    onFinal = (message) => {
+        if (message) {
+            this.onMessage(message);
+        }
         this.setState({
             isMostRecentCommandFinished: true
         });
