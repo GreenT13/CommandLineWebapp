@@ -25,7 +25,14 @@ export default class MyWebSocketComponent extends React.Component {
             port = window.location.port;
         }
 
-        return "ws://" + window.location.hostname + ":" + port + "/webSocket";
+        let protocol;
+        if (window.location.protocol === 'https') {
+            protocol = "wss";
+        } else {
+            protocol = "ws";
+        }
+
+        return protocol + "://" + window.location.hostname + ":" + port + "/webSocket";
     };
 
     initialize = () => {
