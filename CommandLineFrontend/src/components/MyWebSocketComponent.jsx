@@ -14,9 +14,6 @@ export default class MyWebSocketComponent extends React.Component {
     }
 
     determineURL = () => {
-        // Added this for heroku debugging purposes.
-        console.log(window.location);
-
         // Because of issues with local development proxy stuff, we need to manually put this port here.
         let port;
         if (window.location.hostname === 'localhost') {
