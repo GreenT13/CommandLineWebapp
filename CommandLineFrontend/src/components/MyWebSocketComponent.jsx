@@ -26,7 +26,7 @@ export default class MyWebSocketComponent extends React.Component {
         }
 
         let protocol;
-        if (window.location.protocol === 'https') {
+        if (window.location.protocol.includes('https')) {
             protocol = "wss";
         } else {
             protocol = "ws";
