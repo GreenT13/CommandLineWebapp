@@ -1,0 +1,9 @@
+
+COMMAND
+    cv
+
+DESCRIPTION
+    This command shows my Curriculum Vitae.
+
+OPTIONS
+    -f  Download the file as PDF.

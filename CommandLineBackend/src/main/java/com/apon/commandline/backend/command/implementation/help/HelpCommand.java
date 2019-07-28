@@ -1,7 +1,9 @@
 package com.apon.commandline.backend.command.implementation.help;
 
+import com.apon.commandline.backend.command.MyUtil;
 import com.apon.commandline.backend.command.framework.CommandRepository;
 import com.apon.commandline.backend.command.framework.ICommand;
+import com.apon.commandline.backend.terminal.TerminalException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -81,17 +83,14 @@ public class HelpCommand implements ICommand {
      */
     private Optional<String> getHelpTextForCommand(Class<? extends ICommand> commandClass) throws IOException, URISyntaxException {
         // Determine the location of the .txt file.
-        String textPath = commandClass.getName().replaceAll("\\.", "/") + ".txt";
+        Path helpPath = MyUtil.getCommandFile(commandClass, ".txt");
 
-        // Determine whether the file really exists.
-        URL url = commandClass.getClassLoader().getResource(textPath);
-        if (url == null) {
+        try {
+            return Optional.of(MyUtil.getContentOfCommandFile(helpPath));
+        } catch (TerminalException e) {
             return Optional.empty();
         }
 
-        // Return the content of the file.
-        Path path = Paths.get(url.toURI());
-        return Optional.of(Files.readString(path, StandardCharsets.UTF_8));
     }
 
     @Override
