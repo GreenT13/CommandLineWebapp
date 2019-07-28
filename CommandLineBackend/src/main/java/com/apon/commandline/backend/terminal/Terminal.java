@@ -28,7 +28,7 @@ public class Terminal {
         }
 
         CommandRunner commandRunner = new CommandRunner();
-        terminalSocketIO.sendMessage(commandRunner.runCommand(iCommand.get()));
+        terminalSocketIO.sendMessage(commandRunner.runCommand(iCommand.get(), command));
     }
 
     private String getCommandIdentifier(String commandArgs) {
