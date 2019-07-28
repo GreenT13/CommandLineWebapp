@@ -5,6 +5,7 @@ import com.apon.commandline.backend.command.framework.ICommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.nio.file.Path;
 
 /**
@@ -16,9 +17,9 @@ public class CV implements ICommand {
     @Override
     public String run(String command) {
         try {
-            Path cvPath = MyUtil.getCommandFile(this.getClass(), "_content.txt");
+            InputStream inputStream = MyUtil.getCommandFile(this.getClass(), "_content.txt");
 
-            return MyUtil.getContentOfCommandFile(cvPath);
+            return MyUtil.getContentOfFile(inputStream);
         } catch (Exception e) {
             logger.error("Could not read CV file.", e);
             return "CV not found. Contact the administrator.";

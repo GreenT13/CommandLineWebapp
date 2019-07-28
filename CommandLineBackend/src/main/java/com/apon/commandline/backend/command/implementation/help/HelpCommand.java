@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -81,16 +82,13 @@ public class HelpCommand implements ICommand {
      * Returns empty if the command help file could not be found.
      * @param commandClass The command.
      */
-    private Optional<String> getHelpTextForCommand(Class<? extends ICommand> commandClass) throws IOException, URISyntaxException {
-        // Determine the location of the .txt file.
-        Path helpPath = MyUtil.getCommandFile(commandClass, ".txt");
-
+    private Optional<String> getHelpTextForCommand(Class<? extends ICommand> commandClass) throws IOException {
         try {
-            return Optional.of(MyUtil.getContentOfCommandFile(helpPath));
+            InputStream inputStream = MyUtil.getCommandFile(commandClass, ".txt");
+            return Optional.of(MyUtil.getContentOfFile(inputStream));
         } catch (TerminalException e) {
             return Optional.empty();
         }
-
     }
 
     @Override

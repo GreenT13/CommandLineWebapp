@@ -1,7 +1,9 @@
 package com.apon.commandline.backend.command;
 
 import com.apon.commandline.backend.command.framework.ICommand;
+import com.apon.commandline.backend.terminal.Terminal;
 import com.apon.commandline.backend.terminal.TerminalException;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -45,21 +47,30 @@ public class MyUtil {
     }
 
     /**
-     * Return the full path of the command inside the jar, appending the extension.
+     * Return the input stream of the file inside the jar.
      *
      * Throws TerminalException when the file could not be found.
      */
-    public static Path getCommandFile(Class<? extends ICommand> commandClass, String extension) {
-        return Paths.get(commandClass.getName().replaceAll("\\.", "/") + extension);
-    }
+    public static InputStream getCommandFile(Class<? extends ICommand> commandClass, String extension) throws TerminalException {
+        // We could also do this with paths, however Heroku throws FileSystemNotFoundException. So I do it this way.
+        InputStream inputStream = commandClass.getClassLoader().getResourceAsStream(
+                commandClass.getName().replaceAll("\\.", "/") + extension);
 
-    public static String getContentOfCommandFile(Path path) throws URISyntaxException, IOException, TerminalException {
-        URL url = MyUtil.class.getClassLoader().getResource(path.toString());
-        if (url == null) {
-            throw new TerminalException("File could not be found: " + path.toString());
+        if (inputStream == null) {
+            throw new TerminalException("Input stream is null.");
         }
 
-        return Files.readString(Paths.get(url.toURI()), StandardCharsets.UTF_8);
+        return inputStream;
+    }
+
+    /**
+     * Return content as string from an input stream.
+     * @param inputStream The stream
+     */
+    public static String getContentOfFile(InputStream inputStream) throws IOException {
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(inputStream, writer, StandardCharsets.UTF_8);
+        return writer.toString();
     }
 
 }

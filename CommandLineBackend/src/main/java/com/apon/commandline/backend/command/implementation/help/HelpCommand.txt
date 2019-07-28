@@ -1,3 +1,8 @@
-Welcome to this website!
+Welcome to my terminal website.
 
-Look at this boy.
+### Non-programmer
+
+
+
+### Programmer
+Execute the 'help-programmer' command for technical details.
