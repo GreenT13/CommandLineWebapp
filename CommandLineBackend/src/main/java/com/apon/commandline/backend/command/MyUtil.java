@@ -1,17 +1,11 @@
 package com.apon.commandline.backend.command;
 
 import com.apon.commandline.backend.command.framework.ICommand;
-import com.apon.commandline.backend.terminal.Terminal;
 import com.apon.commandline.backend.terminal.TerminalException;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.zip.ZipFile;
 
 public class MyUtil {
