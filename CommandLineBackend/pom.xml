@@ -27,6 +27,9 @@
                 <includes>
                     <!-- Include .txt files for help command. -->
                     <include>**/*.txt</include>
+
+                    <!-- Include .sql for flyway. -->
+                    <include>**/*.sql</include>
                 </includes>
             </resource>
         </resources>
