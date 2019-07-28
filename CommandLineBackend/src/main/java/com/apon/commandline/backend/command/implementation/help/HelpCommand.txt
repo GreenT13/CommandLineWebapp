@@ -1,8 +1,12 @@
 Welcome to my terminal website.
 
 ### Non-programmer
+Try the following commands:
+  cv             Shows my CV
+  cv --image     Shows my picture
 
+TODO: fill this list.
 
 
 ### Programmer
-Execute the 'help-programmer' command for technical details.
+TODO: Execute the 'help-programmer' command for technical details.
