@@ -27,9 +27,19 @@
                 <includes>
                     <!-- Include .txt files for help command. -->
                     <include>**/*.txt</include>
-
-                    <!-- Include .sql for flyway. -->
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <!-- SQL files for flyway. -->
                     <include>**/*.sql</include>
+
+                    <!-- Add all static content. -->
+                    <include>static/**</include>
+
+                    <!-- Add Spring Boot properties. -->
+                    <include>application*.properties</include>
                 </includes>
             </resource>
         </resources>
@@ -48,6 +58,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Manually configure resources to avoid issues with travis-ci. -->
+                    <addResources>false</addResources>
+                </configuration>
             </plugin>
         </plugins>
     </build>
