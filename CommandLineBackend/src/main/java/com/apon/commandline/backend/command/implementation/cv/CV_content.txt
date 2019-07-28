@@ -1,4 +1,34 @@
-Look at my awesome CV
+>>> Personal details
+  Name             Rico Apon
+  Date of birth    26-03-1993
+  Nationality      Dutch
+  Residence        Utrecht
 
+>>> Work experience
+  2017 - current   Keylane
+                   Software Engineer
+  2015 - 2017      University of Leiden
+                   Student assistant
+  2012 - 2017      Bijlesnetwerk
+                   Tutor and exam training in mathematics
+  2012 - 2013      StudentsPlus
+                   Tutor in mathematics
 
-ASDF
+>>> Education
+  2014 - 2017      University of Leiden
+                   Master Mathematics
+  2013 - 2014      ICLON - University of Leiden
+                   Educational minor, certified mathematics teacher
+  2011 - 2014      University of Leiden
+                   Bachelor Mathematics
+  2005 - 2001      Dalton Voorburg
+                   Atheneum
+
+>>> Programming skills
+  Java              ▰▰▰▰▰▰▰▰▰▱
+  SQL               ▰▰▰▰▰▰▰▱▱▱
+  Python            ▰▰▰▰▰▱▱▱▱▱
+  Javascript        ▰▰▰▱▱▱▱▱▱▱
+  Angular/ReactJS   ▰▰▰▱▱▱▱▱▱▱
+  C/C++/C#          ▰▱▱▱▱▱▱▱▱▱
+  Visual Basic      ▰▱▱▱▱▱▱▱▱▱
