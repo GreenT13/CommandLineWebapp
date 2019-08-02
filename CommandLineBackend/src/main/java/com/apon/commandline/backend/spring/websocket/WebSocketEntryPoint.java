@@ -42,7 +42,7 @@ public class WebSocketEntryPoint {
         logger.info("Message received '{}'.", commandInput.commandArg);
 
         try {
-            terminal.executeCommand(commandInput.commandArg);
+            terminal.executeCommand(commandInput);
             sendFinalMessage();
         } catch (Exception e) {
             sendFinalMessage(e.getMessage());

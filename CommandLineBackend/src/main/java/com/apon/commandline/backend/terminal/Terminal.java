@@ -3,6 +3,7 @@ package com.apon.commandline.backend.terminal;
 import com.apon.commandline.backend.command.framework.CommandRepository;
 import com.apon.commandline.backend.command.framework.CommandRunner;
 import com.apon.commandline.backend.command.framework.ICommand;
+import com.apon.commandline.backend.spring.websocket.command.CommandInput;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,17 +19,17 @@ public class Terminal {
         this.terminalSocketIO = terminalSocketIO;
     }
 
-    public void executeCommand(String command) throws TerminalException {
-        logger.debug("Executing command '{}'.", command);
+    public void executeCommand(CommandInput commandInput) throws TerminalException {
+        logger.debug("Executing command '{}'.", commandInput.commandArg);
 
-        String commandIdentifier = getCommandIdentifier(command);
+        String commandIdentifier = getCommandIdentifier(commandInput.commandArg);
         Optional<ICommand> iCommand = commandRepository.getCommandInstanceWithIdentifier(commandIdentifier);
         if (iCommand.isEmpty()) {
             throw new TerminalException("Could not find command for identifier '" + commandIdentifier + "'.");
         }
 
         CommandRunner commandRunner = new CommandRunner();
-        terminalSocketIO.sendMessage(commandRunner.runCommand(iCommand.get(), command));
+        terminalSocketIO.sendMessage(commandRunner.runCommand(iCommand.get(), commandInput));
     }
 
     private String getCommandIdentifier(String commandArgs) {

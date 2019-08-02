@@ -6,4 +6,6 @@ public interface ICommand {
 
     String getCommandIdentifier();
 
+    default void setFile(String fileBase64) { }
+
 }
