@@ -1,10 +1,14 @@
 [![Build Status](https://travis-ci.org/GreenT13/CommandLineWebapp.svg?branch=master)](https://travis-ci.org/GreenT13/CommandLineWebapp)
 
+## Important URL's (for myself)
+* https://command-line-webapp.herokuapp.com/ (website)
+* https://travis-ci.org/GreenT13/CommandLineWebapp.svg (travis-ci)
+* https://greent13.github.io/CommandLineWebapp/#/ (documentation)
+* https://github.com/GreenT13/CommandLineWebapp (this github page)
+
 # My command line web application!
 I really like programming, but I dislike creating a GUI for my applications. I like console applications, but I also want to access my code everywhere.
 So I combined both of best worlds: I created a webapp with a terminal layout! How nerdy can you get :)
-
-Click here to go to the website: https://command-line-webapp.herokuapp.com/.
 
 ## Project setup
 Usual SPA + REST-services structure with Java backend:
