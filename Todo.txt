@@ -1,0 +1,18 @@
+Basic things we should do:
+# Create JUnit tests for the backend.
+# Create tests for the frontend?
+# Update documentation with current situation.
+
+Useful:
+# Parse command messages with markdown in the frontend to HTML.
+
+Sexy stuff:
+# Refactor frontend a bit so it is more logical to process return commands?
+  Only needed when backend supports it, but nice to do anyway. Frontend feels a little bit cluttered.
+# Think of some way to have a waitForInput() in commands.
+
+Cool enhancement:
+# Classpath management. Store some libraries in the database, allow plugins to use these libraries.
+  Also allow plugins to be a lib for other plugins.
+  The uploader of the plugin should be able to specify the classpath. Maybe we can even detect
+  the classpath from the pom.xml or manifest?
