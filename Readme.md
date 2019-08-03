@@ -2,7 +2,7 @@
 
 ## Important URL's (for myself)
 * https://command-line-webapp.herokuapp.com/ (website)
-* https://travis-ci.org/GreenT13/CommandLineWebapp.svg (travis-ci)
+* https://travis-ci.org/GreenT13/CommandLineWebapp (travis-ci)
 * https://greent13.github.io/CommandLineWebapp/#/ (documentation)
 * https://github.com/GreenT13/CommandLineWebapp (this github page)
 
