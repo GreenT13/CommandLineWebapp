@@ -1,7 +1,9 @@
 package com.apon.commandline.backend.command.implementation.cv;
 
 import com.apon.commandline.backend.command.MyUtil;
+import com.apon.commandline.backend.command.framework.AbstractCommand;
 import com.apon.commandline.backend.command.framework.ICommand;
+import com.apon.commandline.backend.spring.websocket.command.CommandInput;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +13,7 @@ import java.io.InputStream;
 /**
  * Basic command to test functionality.
  */
-public class CV implements ICommand {
+public class CV extends AbstractCommand {
     private Logger logger = LogManager.getLogger(CV.class);
 
     @Override

@@ -1,6 +1,7 @@
 package com.apon.commandline.backend.command.implementation.help;
 
 import com.apon.commandline.backend.command.MyUtil;
+import com.apon.commandline.backend.command.framework.AbstractCommand;
 import com.apon.commandline.backend.command.framework.CommandRepository;
 import com.apon.commandline.backend.command.framework.ICommand;
 import com.apon.commandline.backend.terminal.TerminalException;
@@ -14,7 +15,7 @@ import java.util.Optional;
 /**
  * This command is for explaining the website for new people.
  */
-public class HelpCommand implements ICommand {
+public class HelpCommand extends AbstractCommand {
     private Logger logger = LogManager.getLogger(HelpCommand.class);
     private CommandRepository commandRepository = CommandRepository.INSTANCE;
 

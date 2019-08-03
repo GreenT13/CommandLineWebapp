@@ -26,4 +26,13 @@ public class TerminalSocketIO {
             logger.error("Failed to send message.", e);
         }
     }
+
+    void sendFinalMessage() {
+        try {
+            CommandOutput commandOutput = new CommandOutput(null, CommandStatus.FINAL);
+            session.getBasicRemote().sendObject(commandOutput);
+        } catch (IOException | EncodeException e) {
+            logger.error("Failed to send message.", e);
+        }
+    }
 }

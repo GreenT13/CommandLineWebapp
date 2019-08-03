@@ -12,7 +12,7 @@ class App extends React.Component {
         inputValue: ''
     };
 
-    sendMessage = (input) => {
+    sendMessage = (input, fileBase64) => {
         // Update state with new command.
         this.state.commands.push({
             commandArg: input,
@@ -24,7 +24,13 @@ class App extends React.Component {
         });
 
         // Send the message.
-        this.myWebSocketComponent.sendWsMessage(JSON.stringify({commandArg: input}));
+        this.myWebSocketComponent.sendWsMessage(JSON.stringify({commandArg: input, fileBase64: fileBase64}));
+
+        // Clear the input
+        this.setState({
+            inputValue: '',
+        })
+
     };
 
     onMessage = (message) => {
@@ -65,13 +71,31 @@ class App extends React.Component {
         // Possibilities for more cool stuff:
         // https://stackoverflow.com/questions/5203407/how-to-detect-if-multiple-keys-are-pressed-at-once-using-javascript
         if (e.key === 'Enter') {
-            this.sendMessage(this.state.inputValue);
-
-            // Clear the input
-            this.setState({
-                inputValue: '',
-            })
+            // If we typed the "upload-plugin" command, we first upload a file and then send the command.
+            // Else, we just execute the command.
+            if (this.state.inputValue.startsWith('upload-plugin')) {
+                // The command will be executed whenever a file has been uploaded.
+                this.openFileUpload();
+            } else {
+                this.sendMessage(this.state.inputValue, null);
+            }
         }
+    };
+
+    openFileUpload = () => {
+        this.myInput.click();
+    };
+
+    setUploadedFile = (uploadedFile) => {
+        let reader = new FileReader();
+        reader.readAsDataURL(uploadedFile.target.files[0]);
+        reader.onload = () => {
+            this.sendMessage(this.state.inputValue, reader.result);
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+
     };
 
     render() {
@@ -84,10 +108,11 @@ class App extends React.Component {
                 <div id="input-line" className="input-line">
                     <div className="prompt">[rapon@website] #</div>
                     <div className="cmdline-wrapper"><input className="cmdline" autoFocus onKeyDown={this.handleKeyDown}
-                                value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} /></div>
+                                                            value={this.state.inputValue}
+                                                            onChange={evt => this.updateInputValue(evt)}/></div>
                 </div>
         } else {
-            inputDiv = <div id="input-line" className="input-line" />
+            inputDiv = <div id="input-line" className="input-line"/>
         }
 
         return (
@@ -97,9 +122,14 @@ class App extends React.Component {
                                       onFinalCallback={this.onFinal}
                                       onConnectedCallback={this.onConnected}
                                       onDisconnectedCallback={this.onDisconnected}/>
+
+                <input id="fileUploader" type="file" ref={this.setMyInput}
+                       onChange={file => this.setUploadedFile(file)}
+                       style={{display: 'none'}}/>
+
                 <output>
-                    <Banner />
-                    <br />
+                    <Banner/>
+                    <br/>
                 </output>
                 <output>
                     {this.state.commands.map((command, index) => (
@@ -107,7 +137,7 @@ class App extends React.Component {
                     ))}
                 </output>
 
-                { inputDiv }
+                {inputDiv}
             </div>
         );
     }
@@ -116,9 +146,13 @@ class App extends React.Component {
         this.myWebSocketComponent = myWebSocketComponent;
     };
 
+    setMyInput = (myInput) => {
+        this.myInput = myInput;
+    };
+
     updateInputValue(evt) {
         this.setState({inputValue: evt.target.value});
-    }
+    };
 }
 
 export default App;

@@ -1,11 +1,14 @@
 package com.apon.commandline.backend.command.framework;
 
+import com.apon.commandline.backend.spring.websocket.command.CommandInput;
+import com.apon.commandline.backend.terminal.TerminalCommandHelper;
+
 public interface ICommand {
 
-    String run(String command);
+    void run(CommandInput commandInput);
 
     String getCommandIdentifier();
 
-    default void setFile(String fileBase64) { }
+    void setTerminalCommandHelper(TerminalCommandHelper terminalCommandHelper);
 
 }

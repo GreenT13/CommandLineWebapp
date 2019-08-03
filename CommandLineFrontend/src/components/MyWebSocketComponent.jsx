@@ -1,5 +1,4 @@
-import React from "react";
-
+import React from 'react';
 /**
  * Class for communicating with the backend.
  * This class calls the proper callbacks when needed.
@@ -7,9 +6,6 @@ import React from "react";
 export default class MyWebSocketComponent extends React.Component {
 
     componentDidMount() {
-        this.setState({
-            connected: false
-        });
         this.initialize();
     }
 
@@ -33,6 +29,10 @@ export default class MyWebSocketComponent extends React.Component {
     };
 
     initialize = () => {
+        this.setState({
+            connected: false
+        });
+
         let webSocket = new WebSocket(this.determineURL());
 
         webSocket.onopen = this.handleWsOnOpen;
@@ -46,10 +46,11 @@ export default class MyWebSocketComponent extends React.Component {
     };
 
     handleWsOnOpen = (message) => {
+        console.log({function: 'handleWsOnOpen', message: message});
+
         this.setState({
             connected: true
         });
-
         this.props.onConnectedCallback();
     };
 
@@ -66,6 +67,7 @@ export default class MyWebSocketComponent extends React.Component {
     };
 
     handleWsOnClose = (message) => {
+        console.log({function: 'handleWsOnClose', message: message});
         this.props.onDisconnectedCallback();
 
         // The onClose method will be called every time after initialize failed.
@@ -77,8 +79,7 @@ export default class MyWebSocketComponent extends React.Component {
     };
 
     handleWsOnError = (message) => {
-        console.log("Error happened.");
-        console.log(message);
+        console.log({function: 'handleWsOnError', message: message});
     };
 
     sendWsMessage = (message) => {
@@ -86,6 +87,8 @@ export default class MyWebSocketComponent extends React.Component {
     };
 
     render() {
-        return (null);
+        // TODO: Add the file input type here, and only trigger upload-file from this place (so app isn't clouded).
+        // Or make some in-between class that handles it. Maybe rethink the structure anyway?
+        return null;
     }
 }
