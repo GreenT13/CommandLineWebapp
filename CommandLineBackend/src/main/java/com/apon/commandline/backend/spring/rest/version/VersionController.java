@@ -20,7 +20,6 @@ public class VersionController {
 
     private String getReleaseTimestamp() {
         return coalesce(System.getenv("HEROKU_RELEASE_CREATED_AT"),"1970-01-01T00:00:00Z");
-
     }
 
     private String coalesce(String a, String b) {
