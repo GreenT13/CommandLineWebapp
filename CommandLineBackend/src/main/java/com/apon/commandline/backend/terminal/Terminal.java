@@ -1,5 +1,6 @@
 package com.apon.commandline.backend.terminal;
 
+import com.apon.commandline.backend.command.framework.CommandException;
 import com.apon.commandline.backend.command.framework.CommandRepository;
 import com.apon.commandline.backend.command.framework.ICommand;
 import com.apon.commandline.backend.spring.websocket.command.CommandInput;
@@ -23,20 +24,16 @@ public class Terminal {
         terminalCommandHelper = new TerminalCommandHelper(terminalSocketIO);
     }
 
-    public void executeCommand(CommandInput commandInput) throws TerminalException {
+    public void executeCommand(CommandInput commandInput) throws CommandException {
         logger.debug("Executing first command '{}'.", commandInput.commandArg);
 
         // Get an instance of the correct command.
         String commandIdentifier = getCommandIdentifier(commandInput.commandArg);
-        Optional<ICommand> iCommand = commandRepository.getCommandInstanceWithIdentifier(commandIdentifier);
-        if (iCommand.isEmpty()) {
-            throw new TerminalException("Could not find command for identifier '" + commandIdentifier + "'.");
-        }
+        ICommand iCommand = commandRepository.getCommandInstanceWithIdentifier(commandIdentifier);
 
         // Run the command.
-        ICommand command = iCommand.get();
-        command.setTerminalCommandHelper(terminalCommandHelper);
-        command.run(commandInput);
+        iCommand.setTerminalCommandHelper(terminalCommandHelper);
+        iCommand.run(commandInput);
 
         // Send final message because we are done.
         terminalSocketIO.sendFinalMessage();

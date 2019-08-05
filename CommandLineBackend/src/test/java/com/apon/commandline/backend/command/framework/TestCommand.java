@@ -4,7 +4,8 @@ import com.apon.commandline.backend.spring.websocket.command.CommandInput;
 import com.apon.commandline.backend.terminal.TerminalCommandHelper;
 
 public class TestCommand implements ICommand {
-    private static final String TEST_COMMAND_IDENTIFIER = "testcommand";
+    static final String TEST_COMMAND_IDENTIFIER = "testcommand";
+
     @Override
     public void run(CommandInput commandInput) {
 

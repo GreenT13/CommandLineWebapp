@@ -2,6 +2,7 @@ package com.apon.commandline.backend.command.implementation.help;
 
 import com.apon.commandline.backend.command.MyUtil;
 import com.apon.commandline.backend.command.framework.AbstractCommand;
+import com.apon.commandline.backend.command.framework.CommandException;
 import com.apon.commandline.backend.command.framework.CommandRepository;
 import com.apon.commandline.backend.command.framework.ICommand;
 import com.apon.commandline.backend.terminal.TerminalException;
@@ -24,12 +25,9 @@ public class HelpCommand extends AbstractCommand {
         String commandToGetHelpFrom = determineCommandToGetHelpFrom(command);
 
         try {
-            Optional<Class<? extends ICommand>> classOptional = getClassForCommand(commandToGetHelpFrom);
-            if (classOptional.isEmpty()) {
-                return "Could not find the command " + commandToGetHelpFrom + ".";
-            }
+            Class<? extends ICommand> commandClass = getClassForCommand(commandToGetHelpFrom);
 
-            Optional<String> helpTextForCommand = getHelpTextForCommand(classOptional.get());
+            Optional<String> helpTextForCommand = getHelpTextForCommand(commandClass);
             if (helpTextForCommand.isEmpty()) {
                 return "The command does not have a help text.";
             }
@@ -61,14 +59,8 @@ public class HelpCommand extends AbstractCommand {
         return command.substring(startIndex, endIndex);
     }
 
-    private Optional<Class<? extends ICommand>> getClassForCommand(String command) {
-        Optional<ICommand> optionalICommand = commandRepository.getCommandInstanceWithIdentifier(command);
-        if (optionalICommand.isEmpty()) {
-            return Optional.empty();
-        }
-        ICommand iCommand = optionalICommand.get();
-
-        return Optional.of(iCommand.getClass());
+    private Class<? extends ICommand> getClassForCommand(String command) throws CommandException {
+        return commandRepository.getCommandInstanceWithIdentifier(command).getClass();
     }
 
     /**
