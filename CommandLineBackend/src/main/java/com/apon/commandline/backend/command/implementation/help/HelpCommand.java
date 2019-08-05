@@ -5,6 +5,7 @@ import com.apon.commandline.backend.command.framework.AbstractCommand;
 import com.apon.commandline.backend.command.framework.CommandException;
 import com.apon.commandline.backend.command.framework.CommandRepository;
 import com.apon.commandline.backend.command.framework.ICommand;
+import com.apon.commandline.backend.spring.websocket.command.CommandInput;
 import com.apon.commandline.backend.terminal.TerminalException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +22,10 @@ public class HelpCommand extends AbstractCommand {
     private CommandRepository commandRepository = CommandRepository.INSTANCE;
 
     @Override
+    public void run(CommandInput commandInput) {
+        terminalCommandHelper.sendMessage(run(commandInput.commandArg));
+    }
+
     public String run(String command) {
         String commandToGetHelpFrom = determineCommandToGetHelpFrom(command);
 

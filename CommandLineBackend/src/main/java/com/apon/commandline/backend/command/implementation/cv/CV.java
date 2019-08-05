@@ -17,6 +17,10 @@ public class CV extends AbstractCommand {
     private Logger logger = LogManager.getLogger(CV.class);
 
     @Override
+    public void run(CommandInput commandInput) {
+        terminalCommandHelper.sendMessage(run(commandInput.commandArg));
+    }
+
     public String run(String command) {
         CommandLineParser commandLineParser = new DefaultParser();
         CommandLine commandLine;
