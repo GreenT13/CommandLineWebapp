@@ -1,3 +1,16 @@
+Next steps:
+1. Finish upload-plugin command.
+2. Remove PluginController etc.
+3. Create JUnit for upload-plugin.
+4. Create integration test for all command implementations.
+5. Create documentation for creating your own command.
+6. Create JUnit for terminal.
+7. Edit websocket stuff to only create connection whenever a new command is inserted, not whenever you are connected
+   to the server.
+
+
+
+
 Basic things we should do:
 # Create JUnit tests for the backend.
 # Create tests for the frontend?
