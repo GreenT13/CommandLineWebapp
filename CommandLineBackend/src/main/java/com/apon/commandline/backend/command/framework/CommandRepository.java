@@ -9,7 +9,8 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 /**
- * This class will collect all implementations of ICommand, and can deliver instances.
+ * The CommandRepository responsible for creating instances of a valid subclass of ICommand based on a command identifier.
+ * The list of all valid subclasses is created by {@link com.apon.commandline.backend.command.framework.CommandFinder}.
  */
 public enum CommandRepository {
     INSTANCE();
@@ -47,7 +48,7 @@ public enum CommandRepository {
      */
     private void initialize() {
         CommandFinder commandFinder = new CommandFinder();
-        Set<Class<? extends ICommand>> commands = commandFinder.findAllCommands();
+        Set<Class<? extends ICommand>> commands = commandFinder.findAllValidCommandsInComApon();
 
         for (Class<? extends ICommand> iCommandClass : commands) {
             try {
