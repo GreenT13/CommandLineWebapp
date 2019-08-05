@@ -14,17 +14,38 @@ import java.util.stream.Collectors;
 public class CommandFinder {
 
     /**
-     * Find all classes that are a subtype of ICommand and are contained in the package "com.apon".
+     * Find all classes which satisfy ALL of the following:
+     * <ul>
+     *     <li>The class is instantiable with a constructor without parameters.</li>
+     *     <li>The class is not abstract, static or an inner class.</li>
+     *     <li>The class is contained in the package "com.apon".</li>
+     * </ul>
+     *
+     * The package "com.apon" is used because this drastically reduces reflection time.
      */
     public Set<Class<? extends ICommand>> findAllValidCommandsInComApon() {
         Set<Class<? extends ICommand>> commands = findAllCommands("com.apon");
 
-        // Filter out all the abstract, static and inner classes.
+        // Filter out all the abstract, static, inner classes and check that the constructor has no parameters.
         return commands.stream()
                 .filter(commandClass -> !Modifier.isAbstract(commandClass.getModifiers()))
                 .filter(commandClass -> !Modifier.isStatic(commandClass.getModifiers()))
                 .filter(commandClass -> commandClass.getEnclosingClass() == null)
+                .filter(this::classHasNoParamConstructor)
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * Determine whether the class has a constructor that can be called without parameters.
+     * @param clazz The class.
+     */
+    private boolean classHasNoParamConstructor(Class<?> clazz) {
+        try {
+            clazz.getConstructor();
+            return true;
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
     }
 
     /**

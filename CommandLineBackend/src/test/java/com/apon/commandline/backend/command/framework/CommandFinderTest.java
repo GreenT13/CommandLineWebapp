@@ -30,6 +30,11 @@ public class CommandFinderTest {
     }
 
     @Test
+    public void testCommandWithoutNoParamConstructorIsNotFound() {
+        assertFalse("Every found class should have a constructor that takes no parameters.", foundCommands.contains(ParamConstructorTestCommand.class));
+    }
+
+    @Test
     public void testAbstractCommandClassesAreNotFound() {
         assertFalse("Abstract classes should not be found." , foundCommands.contains(AbstractTestCommand.class));
         // This test case is double (also in testInnerCommandClassesAreNotFound), but it belongs in both.

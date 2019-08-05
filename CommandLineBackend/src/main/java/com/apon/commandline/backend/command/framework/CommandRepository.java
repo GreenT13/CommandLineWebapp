@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.util.*;
 
 /**
@@ -52,10 +51,7 @@ public enum CommandRepository {
 
         for (Class<? extends ICommand> iCommandClass : commands) {
             try {
-                // Only initialize non-abstract classes.
-                if (!Modifier.isAbstract(iCommandClass.getModifiers())) {
-                    initializeCommand(iCommandClass);
-                }
+                initializeCommand(iCommandClass);
             } catch (CommandException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                 logger.error("Could not initialize command {}. Stacktrace: {}", iCommandClass.getName(), e);
             }
