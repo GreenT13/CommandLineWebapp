@@ -24,6 +24,9 @@ public class CommandFinderTest {
         foundCommands = commandFinder.findAllValidCommandsInComApon();
     }
 
+    /**
+     * Happy flow!
+     */
     @Test
     public void testCommandClassIsFound() {
         assertTrue("The class 'TestCommand' should be found." , foundCommands.contains(TestCommand.class));
