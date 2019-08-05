@@ -7,6 +7,7 @@ Next steps:
 6. Create JUnit for terminal.
 7. Edit websocket stuff to only create connection whenever a new command is inserted, not whenever you are connected
    to the server.
+8. Separate integration test from JUnit test (and check how I can run only JUnit tests).
 
 
 
