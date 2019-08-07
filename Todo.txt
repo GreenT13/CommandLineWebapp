@@ -8,7 +8,7 @@ Next steps:
 7. Edit websocket stuff to only create connection whenever a new command is inserted, not whenever you are connected
    to the server.
 8. Separate integration test from JUnit test (and check how I can run only JUnit tests).
-
+9. Use https://blog.jayway.com/2014/06/13/sandboxing-plugins-in-java/
 
 
 
