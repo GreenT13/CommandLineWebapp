@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExecutionCondition;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
- * Condition to skip the test if "skipIntegrationTests" is given.
+ * Condition to skip the test if "skipIntegrationTests" is given as parameter.
  */
 public class IntegrationTestCondition implements ExecutionCondition {
     private static final String COMMAND_LINE_PARAMETER_SKIP_INTEGRATION_TESTS = "skipIntegrationTests";
@@ -21,6 +21,10 @@ public class IntegrationTestCondition implements ExecutionCondition {
         }
     }
 
+    /**
+     * Return the variable {@link IntegrationTestCondition#COMMAND_LINE_PARAMETER_SKIP_INTEGRATION_TESTS} for this condition,
+     * given as either system property or environment variable.
+     */
     private String getVariable() {
         String skipIntegrationTests = System.getProperty(COMMAND_LINE_PARAMETER_SKIP_INTEGRATION_TESTS);
         if (skipIntegrationTests != null) {
