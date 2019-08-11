@@ -1,8 +1,9 @@
 package com.apon.commandline.backend.command.framework;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 /**
  * Testing CommandRepository is not really possible. It would take a lot of reflection, which is terrible.
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertTrue;
  *     <li>Having an empty command leads to an error.</li>
  * </ul>
  */
+@SuppressWarnings("WeakerAccess")
 public class CommandRepositoryTest {
 
     /**
@@ -26,8 +28,9 @@ public class CommandRepositoryTest {
         assertTrue("The instantiated command is not the correct command.", iCommand instanceof TestCommand);
     }
 
-    @Test(expected = CommandException.class)
-    public void throwErrorWhenCommandIsNotFound() throws CommandException {
-        CommandRepository.INSTANCE.getCommandInstanceWithIdentifier("thiscommanddoesnotexist");
+    @Test
+    public void throwErrorWhenCommandIsNotFound() {
+        assertThrows(CommandException.class, () ->
+                CommandRepository.INSTANCE.getCommandInstanceWithIdentifier("thiscommanddoesnotexist"));
     }
 }

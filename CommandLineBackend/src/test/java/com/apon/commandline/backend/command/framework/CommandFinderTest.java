@@ -2,23 +2,24 @@ package com.apon.commandline.backend.command.framework;
 
 import com.apon.commandline.backend.spring.websocket.command.CommandInput;
 import com.apon.commandline.backend.terminal.TerminalCommandHelper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
  * Test class for {@link com.apon.commandline.backend.command.framework.CommandFinder}.
  */
+@SuppressWarnings("WeakerAccess")
 public class CommandFinderTest {
 
     private Set<Class<? extends ICommand>> foundCommands;
 
-    @Before
+    @BeforeEach
     public void initialize() {
         CommandFinder commandFinder = new CommandFinder();
         foundCommands = commandFinder.findAllValidCommandsInComApon();
@@ -29,26 +30,27 @@ public class CommandFinderTest {
      */
     @Test
     public void testCommandClassIsFound() {
-        assertTrue("The class 'TestCommand' should be found." , foundCommands.contains(TestCommand.class));
+        assertTrue(foundCommands.contains(TestCommand.class), "The class 'TestCommand' should be found.");
     }
 
     @Test
     public void testCommandWithoutNoParamConstructorIsNotFound() {
-        assertFalse("Every found class should have a constructor that takes no parameters.", foundCommands.contains(ParamConstructorTestCommand.class));
+        assertFalse(foundCommands.contains(ParamConstructorTestCommand.class),
+                "Every found class should have a constructor that takes no parameters.");
     }
 
     @Test
     public void testAbstractCommandClassesAreNotFound() {
-        assertFalse("Abstract classes should not be found." , foundCommands.contains(AbstractTestCommand.class));
+        assertFalse(foundCommands.contains(AbstractTestCommand.class), "Abstract classes should not be found.");
         // This test case is double (also in testInnerCommandClassesAreNotFound), but it belongs in both.
-        assertFalse("Inner abstract classes should not be found." , foundCommands.contains(InnerAbstractTestCommand.class));
+        assertFalse(foundCommands.contains(InnerAbstractTestCommand.class), "Inner abstract classes should not be found.");
     }
 
     @Test
     public void testInnerCommandClassesAreNotFound() {
-        assertFalse("Inner classes should not be found." , foundCommands.contains(InnerAbstractTestCommand.class));
-        assertFalse("Inner abstract classes should not be found." , foundCommands.contains(InnerAbstractTestCommand.class));
-        assertFalse("Inner static classes should not be found." , foundCommands.contains(InnerAbstractTestCommand.class));
+        assertFalse(foundCommands.contains(InnerAbstractTestCommand.class), "Inner classes should not be found.");
+        assertFalse(foundCommands.contains(InnerAbstractTestCommand.class), "Inner abstract classes should not be found.");
+        assertFalse(foundCommands.contains(InnerAbstractTestCommand.class), "Inner static classes should not be found.");
     }
 
     class InnerTestCommand implements ICommand {

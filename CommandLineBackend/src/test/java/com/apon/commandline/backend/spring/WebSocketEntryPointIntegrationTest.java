@@ -4,29 +4,25 @@ import com.apon.commandline.backend.spring.websocket.WebSocketEntryPoint;
 import com.apon.commandline.backend.spring.websocket.command.CommandOutput;
 import com.apon.commandline.backend.spring.websocket.command.CommandStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.websocket.DecodeException;
-import javax.websocket.DeploymentException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Integration test created for testing WebSocket communication.
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
+@SuppressWarnings("WeakerAccess")
 public class WebSocketEntryPointIntegrationTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -36,7 +32,7 @@ public class WebSocketEntryPointIntegrationTest {
     private WebSocketClientEndpoint webSocketClientEndpoint;
     private List<CommandOutput> commandOutputs;
 
-    @Before
+    @BeforeEach
     public void initialize() {
         commandOutputs = new ArrayList<>();
 
