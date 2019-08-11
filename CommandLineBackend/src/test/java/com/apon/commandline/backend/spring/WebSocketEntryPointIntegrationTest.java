@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
+import util.integrationtesting.IntegrationTest;
 
 import java.io.IOException;
 import java.net.URI;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
+@IntegrationTest
 @SuppressWarnings("WeakerAccess")
 public class WebSocketEntryPointIntegrationTest {
     private ObjectMapper objectMapper = new ObjectMapper();

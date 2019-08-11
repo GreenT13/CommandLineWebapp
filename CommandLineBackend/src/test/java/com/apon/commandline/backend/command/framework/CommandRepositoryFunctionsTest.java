@@ -2,9 +2,10 @@ package com.apon.commandline.backend.command.framework;
 
 import com.apon.commandline.backend.spring.websocket.command.CommandInput;
 import com.apon.commandline.backend.terminal.TerminalCommandHelper;
-import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Map;
 
@@ -19,10 +20,11 @@ public class CommandRepositoryFunctionsTest {
 
     private Map<String, Class<? extends ICommand>> commandClassMap;
     private CommandRepositoryFunctions commandRepositoryFunctions;
+    private Logger logger = Mockito.mock(Logger.class);
 
     @BeforeEach
     public void initialize() {
-        commandRepositoryFunctions = new CommandRepositoryFunctions(LogManager.getLogger(CommandRepositoryFunctionsTest.class));
+        commandRepositoryFunctions = new CommandRepositoryFunctions(logger);
         commandRepositoryFunctions.initialize("com.apon.commandline.backend.command.framework");
         commandClassMap = commandRepositoryFunctions.getCommandClassMap();
     }
@@ -52,15 +54,30 @@ public class CommandRepositoryFunctionsTest {
 
     @Test
     public void testInnerCommandClassesAreNotFound() {
-        assertFalse(commandClassMap.values().contains(InnerAbstractTestCommand.class), "Inner classes should not be found.");
+        assertFalse(commandClassMap.values().contains(InnerTestCommand.class), "Inner classes should not be found.");
         assertFalse(commandClassMap.values().contains(InnerAbstractTestCommand.class), "Inner abstract classes should not be found.");
-        assertFalse(commandClassMap.values().contains(InnerAbstractTestCommand.class), "Inner static classes should not be found.");
+        assertFalse(commandClassMap.values().contains(InnerStaticTestCommand.class), "Inner static classes should not be found.");
     }
 
     @Test
     public void throwErrorWhenCommandIsNotFound() {
         assertThrows(CommandException.class, () ->
                 commandRepositoryFunctions.getCommandInstanceWithIdentifier("thiscommanddoesnotexist"));
+    }
+
+    @Test
+    public void logErrorWhenTwoCommandsWithTheSameIdentifierAreFound() {
+        String testCommandIdentifier2 = TestCommand2.TEST_COMMAND_IDENTIFIER_2;
+        TestCommand2.TEST_COMMAND_IDENTIFIER_2 = TestCommand.TEST_COMMAND_IDENTIFIER;
+        commandRepositoryFunctions = new CommandRepositoryFunctions(logger);
+        commandRepositoryFunctions.initialize("com.apon.commandline.backend.command.framework");
+
+        // I want to make sure that the error is logged, so this test is a must.
+        // However this line is not really maintainable. I see no other way though.
+        Mockito.verify(logger).error(Mockito.anyString(), Mockito.any(), Mockito.any(CommandException.class));
+
+        // Reset the identifier, otherwise other tests fail.
+        TestCommand2.TEST_COMMAND_IDENTIFIER_2 = testCommandIdentifier2;
     }
 
     class InnerTestCommand implements ICommand {
