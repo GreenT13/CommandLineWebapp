@@ -67,6 +67,7 @@ public class CommandRepositoryFunctionsTest {
 
     @Test
     public void logErrorWhenTwoCommandsWithTheSameIdentifierAreFound() {
+        // BEFORE (different for this single test).
         String testCommandIdentifier2 = TestCommand2.TEST_COMMAND_IDENTIFIER_2;
         TestCommand2.TEST_COMMAND_IDENTIFIER_2 = TestCommand.TEST_COMMAND_IDENTIFIER;
         commandRepositoryFunctions = new CommandRepositoryFunctions(logger);
@@ -76,6 +77,7 @@ public class CommandRepositoryFunctionsTest {
         // However this line is not really maintainable. I see no other way though.
         Mockito.verify(logger).error(Mockito.anyString(), Mockito.any(), Mockito.any(CommandException.class));
 
+        // AFTER (different for this single test).
         // Reset the identifier, otherwise other tests fail.
         TestCommand2.TEST_COMMAND_IDENTIFIER_2 = testCommandIdentifier2;
     }
