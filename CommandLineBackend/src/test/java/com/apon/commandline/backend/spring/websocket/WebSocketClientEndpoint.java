@@ -1,4 +1,4 @@
-package com.apon.commandline.backend.spring;
+package com.apon.commandline.backend.spring.websocket;
 
 import javax.websocket.*;
 import java.net.URI;

@@ -1,6 +1,5 @@
-package com.apon.commandline.backend.spring;
+package com.apon.commandline.backend.spring.websocket;
 
-import com.apon.commandline.backend.spring.websocket.WebSocketEntryPoint;
 import com.apon.commandline.backend.spring.websocket.command.CommandOutput;
 import com.apon.commandline.backend.spring.websocket.command.CommandStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,7 +56,7 @@ public class WebSocketEntryPointIntegrationTest {
 
         long startTime = System.currentTimeMillis();
         while (true) {
-            // Create a clone to prevent ConcurrentModificationException
+            // Create a clone to prevent ConcurrentModificationException.
             List<CommandOutput> commandOutputsClone = new ArrayList<>(commandOutputs);
             for (CommandOutput commandOutput : commandOutputsClone) {
                 if (CommandStatus.FINAL.equals(commandOutput.commandStatus)) {
