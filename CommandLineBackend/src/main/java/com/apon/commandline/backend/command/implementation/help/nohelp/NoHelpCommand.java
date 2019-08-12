@@ -6,15 +6,11 @@ import com.apon.commandline.backend.spring.websocket.command.CommandInput;
 /**
  * Class for testing the help command.
  */
-public class NoHelp extends AbstractCommand {
+public class NoHelpCommand extends AbstractCommand {
 
     @Override
     public void run(CommandInput commandInput) {
-        terminalCommandHelper.sendMessage(run(commandInput.commandArg));
-    }
-
-    public String run(String command) {
-        return "There is no help for this!";
+        terminalCommandHelper.sendMessage("There is no help for this!");
     }
 
     @Override

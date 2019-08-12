@@ -6,9 +6,9 @@ import com.apon.commandline.backend.terminal.TerminalCommandHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UploadPlugin implements ICommand {
+public class UploadPluginCommand implements ICommand {
     private TerminalCommandHelper terminalCommandHelper;
-    private Logger logger = LogManager.getLogger(UploadPlugin.class);
+    private Logger logger = LogManager.getLogger(UploadPluginCommand.class);
 
     @Override
     public void run(CommandInput commandInput) {

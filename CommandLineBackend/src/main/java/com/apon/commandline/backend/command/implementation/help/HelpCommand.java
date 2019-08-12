@@ -26,7 +26,7 @@ public class HelpCommand extends AbstractCommand {
         terminalCommandHelper.sendMessage(run(commandInput.commandArg));
     }
 
-    public String run(String command) {
+    private String run(String command) {
         String commandToGetHelpFrom = determineCommandToGetHelpFrom(command);
 
         try {
