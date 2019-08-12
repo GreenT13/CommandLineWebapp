@@ -19,7 +19,7 @@ import java.io.IOException;
 @Component
 @ServerEndpoint(value = WebSocketEntryPoint.WEBSOCKET_URL, decoders = MessageDecoder.class, encoders = MessageEncoder.class)
 public class WebSocketEntryPoint {
-    public final static String WEBSOCKET_URL = "/webSocket";
+    final static String WEBSOCKET_URL = "/webSocket";
 
     private Logger logger = LogManager.getLogger(WebSocketEntryPoint.class);
     private Session session;
@@ -43,7 +43,6 @@ public class WebSocketEntryPoint {
 
         try {
             terminal.executeCommand(commandInput);
-            sendFinalMessage();
         } catch (Exception e) {
             sendFinalMessage(e.getMessage());
         }
