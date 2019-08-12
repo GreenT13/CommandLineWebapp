@@ -52,7 +52,7 @@ public class WebSocketEntryPointIntegrationTest {
 
     @Test
     public void testThatCommandSendsFinalMessage() {
-        webSocketClientEndpoint.sendMessage("{\"commandArg\":\"help\"}");
+        webSocketClientEndpoint.sendMessage("{\"commandArg\":\"helloworld\"}");
 
         long startTime = System.currentTimeMillis();
         while (true) {
@@ -64,8 +64,8 @@ public class WebSocketEntryPointIntegrationTest {
                 }
             }
 
-            // If we wait more than 5 seconds, something is wrong.
-            if (System.currentTimeMillis() - startTime > 5000) {
+            // If we wait more than 1 second, something is wrong.
+            if (System.currentTimeMillis() - startTime > 1000) {
                 fail("Final message was not received.");
                 return;
             }
